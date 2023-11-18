@@ -19,30 +19,28 @@ public class main extends JFrame {
             drawer.hide();
         else drawer.show();
     }
-    private  void remakeButton(){
-        ImageIcon icon = new ImageIcon("D:\\IT\\java things\\TestGui\\src\\main\\icon\\hamburger.png");
+    public static Image resize(ImageIcon icon,int desiredWidth,int desiredHeight ){
         Image originalImage = icon.getImage();
 
-        // Define the desired width and height for the resized ImageIcon
-        int desiredWidth = 20;
-        int desiredHeight = 20;
-
-        // Scale the original Image to the desired dimensions
-        Image resizedImage = originalImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_SMOOTH);
+        return originalImage.getScaledInstance(desiredWidth, desiredHeight, Image.SCALE_DEFAULT);
+    }
+    private  void remakeButton(){
+        ImageIcon icon = new ImageIcon(main.class.getResource(".\\icon\\hamburger.png"));
+        Image resizedImage= resize(icon,20,20);
 
         // Create a new ImageIcon with the resized Image
         ImageIcon resizedIcon = new ImageIcon(resizedImage);
         dropdownButton.setIcon(resizedIcon);
         dropdownButton.setEnabled(true);
-        dropdownButton.setPreferredSize(new Dimension(30,30));
+        dropdownButton.setPreferredSize(new Dimension(40,40));
     }
 
     public main(){
-        getRootPane().putClientProperty("JRootPane.titleBarBackground", new Color(5, 191, 219));
+        getRootPane().putClientProperty("JRootPane.titleBarBackground", new Color(23, 81, 194));
         getRootPane().putClientProperty("JRootPane.titleBarForeground", Color.white);
         remakeButton();
         drawer= Drawer.newDrawer(this)
-                .header(new JLabel("Header Test"))
+                .header(new Header())
                 .separator(2,new Color(22, 169, 255))
                 .background(new Color(160, 233, 255))
 //                .backgroundTransparent(0.3f)
@@ -53,8 +51,12 @@ public class main extends JFrame {
 
                 .addFooter(new Exit().build())
                 .build();
-        add(heheeh);
-        heheeh.setBackground(new Color(242, 242, 242));
+        ChatInterface chat= new ChatInterface();
+
+        add(chat);
+//        add(heheeh);
+//        heheeh.setOpaque(false);
+//        heheeh.setBackground(new Color(242, 242, 242));
         setTitle("Hehe");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400,500);
@@ -65,7 +67,7 @@ public class main extends JFrame {
     public static void main (String [] args){
         FlatLightLaf.setup();
         JFrame.setDefaultLookAndFeelDecorated(true);
-
+        UIManager.put( "Component.arc", 999 );
         UIManager.put( "Button.arc", 999 );
 
         new main();
@@ -75,3 +77,23 @@ public class main extends JFrame {
 
 }
 
+class Header extends JLabel{
+    Header(){
+        setText("Cute Server");
+        ImageIcon icon = new ImageIcon(main.class.getResource(".\\icon\\reindeer.png"));
+        icon=new ImageIcon(main.resize(icon,40,40));
+        // Create the JLabel for the icon
+        setIcon(icon);
+//        JLabel iconLabel = new JLabel(icon);
+        setBackground(new Color(22, 169, 255));
+        setOpaque(true);
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setHorizontalTextPosition(SwingConstants.CENTER);
+        setVerticalTextPosition(SwingConstants.BOTTOM);
+        setFont(new Font("MV Boli",Font.BOLD,20));
+        // Create the JLabel for the icon nam
+
+        // Create an HTML formatted string to align the text beneath the icon
+    }
+
+}
