@@ -1,21 +1,16 @@
 package raven.chat.component;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
 import raven.chat.model.ModelMessage;
 import raven.chat.swing.AutoWrapText;
 import raven.chat.swing.ImageAvatar;
-
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.MatteBorder;
-
+import javax.swing.BorderFactory;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
 import net.miginfocom.swing.MigLayout;
 
 public class ChatBox extends JComponent {
@@ -43,24 +38,13 @@ public class ChatBox extends JComponent {
         JTextPane text = new JTextPane();
         text.setEditorKit(new AutoWrapText());
         text.setText(message.getMessage());
-
-        text.setForeground(new Color(24, 24, 24));
-        text.setSelectionColor(new Color(160, 233, 255));
-
-        Border border = BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(22, 169, 255)),
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)
-        );
-
-        text.setBorder(border);
-        text.setBackground(new Color(160, 233, 255 ));
-//        text.setOpaque(false);
+        text.setBackground(new Color(0, 0, 0, 0));
+        text.setForeground(new Color(242, 242, 242));
+        text.setSelectionColor(new Color(200, 200, 200, 100));
+        text.setFont(new Font("Consolas", Font.PLAIN,14));
+        text.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        text.setOpaque(false);
         text.setEditable(false);
-
-
-        // Set the round border and background color of the text pane
-        text.setBackground(Color.RED);
-
         JLabel labelDate = new JLabel(message.getName() + " | " + message.getDate());
         labelDate.setForeground(new Color(127, 127, 127));
         add(avatar, "height 40,width 40");
@@ -69,7 +53,6 @@ public class ChatBox extends JComponent {
     }
 
     @Override
-
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -83,7 +66,7 @@ public class ChatBox extends JComponent {
         } else {
             Area area = new Area(new RoundRectangle2D.Double(0, 25, width - 25, height - 25 - 16 - 10, 5, 5));
             area.subtract(new Area(new Ellipse2D.Double(width - 50, 5, 45, 45)));
-            g2.setColor(new Color(255, 255, 255, 20));
+            g2.setColor(new Color(69, 95, 220, 210));
             g2.fill(area);
         }
         g2.dispose();

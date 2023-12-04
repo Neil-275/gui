@@ -1,7 +1,6 @@
 package raven.chat.component;
 
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -10,12 +9,16 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.formdev.flatlaf.FlatClientProperties;
 import javaswingdev.FontAwesome;
 import javaswingdev.FontAwesomeIcon;
 import javaswingdev.GoogleMaterialDesignIcon;
 import javaswingdev.GoogleMaterialIcon;
 import javaswingdev.GradientType;
-import javax.swing.JLabel;
+
+import javax.swing.*;
+
 import raven.chat.animation.AnimationFloatingButton;
 import raven.chat.animation.AnimationScroll;
 import raven.chat.model.ModelMessage;
@@ -23,10 +26,8 @@ import raven.chat.swing.Button;
 import raven.chat.swing.RoundPanel;
 import raven.chat.swing.TextField;
 import raven.chat.swing.scroll.ScrollBar;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
+
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import net.miginfocom.swing.MigLayout;
 import raven.chat.swing.ChatEvent;
@@ -50,6 +51,7 @@ public class ChatArea extends JPanel {
         setOpaque(false);
         layout = new MigLayout("fill, wrap, inset 0", "[fill]", "[fill,40!][fill, 100%][shrink 0,::30%]");
         header = createHeader();
+        header.setOpaque(false);
         body = createBody();
         bottom = createBottom();
         layeredPane = createLayeredPane();
@@ -76,10 +78,13 @@ public class ChatArea extends JPanel {
             }
         });
         floatingButton = createFloatingButton();
-        layeredPane.setLayer(floatingButton, JLayeredPane.POPUP_LAYER);
-        layeredPane.add(floatingButton, "pos 100%-50 100%,h 40,w 40");
+//        layeredPane.setLayer(floatingButton, JLayeredPane.POPUP_LAYER);
+//        layeredPane.add(floatingButton, "pos 100%-50 100%,h 40,w 40");
         layeredPane.add(scrollBody);
         setLayout(layout);
+        header.setBackground(new Color(0,0,0,0));
+        bottom.setBackground(new Color(0,0,0,0));
+//        layeredPane.setBackground(new Color(200,101,110));
         add(header);
         add(layeredPane);
         add(bottom);
@@ -104,29 +109,28 @@ public class ChatArea extends JPanel {
 
     private JPanel createBody() {
         RoundPanel panel = new RoundPanel();
-        panel.setBackground(new Color(0, 0, 0, 0));
+        panel.setBackground(new Color(111, 0, 0, 0));
         panel.setLayout(new MigLayout("wrap,fillx"));
         return panel;
     }
 
     private JPanel createBottom() {
         RoundPanel panel = new RoundPanel();
-        panel.setBackground(new Color(128, 187, 211, 174));
-        panel.setLayout(new MigLayout("fill, inset 2", "[fill,34!]2[fill]2[fill,34!]", "[bottom]"));
+        panel.setBackground(new Color(255, 255, 255, 20));
+        panel.setLayout(new MigLayout("fill, inset 2", "[fill]3[fill,34!]", "[bottom]"));
 //        GoogleMaterialIcon iconFile = new GoogleMaterialIcon(GoogleMaterialDesignIcon.ATTACH_FILE, GradientType.VERTICAL, new Color(210, 210, 210), new Color(255, 255, 255), 20);
-        GoogleMaterialIcon iconSend = new GoogleMaterialIcon(GoogleMaterialDesignIcon.SEND, GradientType.VERTICAL, new Color(0, 133, 237), new Color(90, 182, 255), 20);
-        GoogleMaterialIcon iconEmot = new GoogleMaterialIcon(GoogleMaterialDesignIcon.INSERT_EMOTICON, GradientType.VERTICAL, new Color(210, 210, 210), new Color(255, 255, 255), 20);
+        GoogleMaterialIcon iconSend = new GoogleMaterialIcon(GoogleMaterialDesignIcon.SEND, GradientType.VERTICAL, new Color(0, 133, 237), new Color(90, 182, 255), 25);
+//        GoogleMaterialIcon iconEmot = new GoogleMaterialIcon(GoogleMaterialDesignIcon.INSERT_EMOTICON, GradientType.VERTICAL, new Color(210, 210, 210), new Color(255, 255, 255), 20);
         Button cmdFile = new Button();
         Button cmdSend = new Button();
         cmdFile.setFocusable(false);
         cmdSend.setFocusable(false);
-//        cmdFile.setIcon(iconFile.toIcon());
         cmdSend.setIcon(iconSend.toIcon());
-        textMessage = new TextField();
 
-        textMessage.setBackground(new Color(121, 180, 190));
-        textMessage.setForeground(new Color(10,10,10));
-        textMessage.setHint("Write a message here ...");
+        textMessage = new TextField();
+        textMessage.setFont(new Font("Consolas",Font.PLAIN,14));
+//        textMessage.setBackground(new Color(29, 142, 176, 123));
+        textMessage.setHint("What to do my highness ...");
         textMessage.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -151,11 +155,11 @@ public class ChatArea extends JPanel {
             }
         });
         JScrollPane scroll = createScroll();
+        scroll.setBackground(new Color(67, 121, 118, 61));
         scroll.setViewportView(textMessage);
         scroll.getViewport().setOpaque(false);
         scroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         scroll.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
-        panel.add(cmdFile, "height 34!");
         panel.add(scroll);
         panel.add(cmdSend, "height 34!");
         return panel;
@@ -241,10 +245,8 @@ public class ChatArea extends JPanel {
         }
     }
 
-    public static String getText() {
-        String tmp=textMessage.getText();
-        textMessage.setText("");
-        return tmp;
+    public String getText() {
+        return textMessage.getText();
     }
 
     public void setTitle(String title) {
@@ -274,7 +276,7 @@ public class ChatArea extends JPanel {
     private JPanel header;
     private JPanel body;
     private JPanel bottom;
-    private static TextField textMessage;
+    private TextField textMessage;
     private JScrollPane scrollBody;
     private Button floatingButton;
     private JLabel labelTitle;

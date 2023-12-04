@@ -33,7 +33,7 @@ public class TextField extends JTextPane {
     public TextField() {
         setOpaque(false);
         setBorder(new EmptyBorder(9, 1, 9, 1));
-        setBackground(new Color(0, 0, 0, 0));
+        setBackground(new Color(13, 181, 229, 161));
         setForeground(new Color(255, 255, 255));
         setSelectionColor(new Color(200, 200, 200, 100));
         autoWrapText();
